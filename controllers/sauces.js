@@ -68,8 +68,6 @@ exports.deleteThing = async (req, res) => {
   }
 }
 
-  
-
 exports.getAllStuff = async (req, res) => {
   try{
     // récupère les objets crées à l'aide du modèle Sauce

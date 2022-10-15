@@ -5,7 +5,7 @@ const router = express.Router();
 // intègre les images au serveur 
 const multer = require('../middleware/multer-config');
 
-const sauceCtrl = require('../controlleurs/sauces');
+const sauceCtrl = require('../controllers/sauces');
 
 router.get('/', auth, sauceCtrl.getAllStuff);
 router.post('/', auth, multer, sauceCtrl.createThing);
