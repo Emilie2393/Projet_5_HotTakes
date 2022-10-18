@@ -1,9 +1,9 @@
 const Sauce = require('../models/sauce');
 const fs = require('fs');
-const mongoose = require('mongoose');
 
 
 exports.createThing = (req, res) => {
+  console.log(req.body)
   const sauceObject = JSON.parse(req.body.sauce);
   delete sauceObject._id;
   // créer un nouvel objet Sauce
@@ -17,12 +17,14 @@ exports.createThing = (req, res) => {
     dislikes: 0,
     usersLiked: [],
     usersdisLiked: [],
-  });
+  }) ;
   
   sauce.save()
     .then(() => res.status(201).json({ message: "Sauce enregistrée" }))
     .catch((error) => res.status(400).json({ error }));
+
 };
+
 
 
 exports.modifyThing = (req, res) => {

@@ -9,6 +9,8 @@ const sauceRoutes = require('./routes/sauces');
 // gère les chemins de répertoire pour images par exemple
 const path = require('path');
 
+const dotenv = require('dotenv');
+dotenv.config();
 
 mongoose.connect('mongodb+srv://emilie:akira2019@clusterexercice.fwyxuic.mongodb.net/?retryWrites=true&w=majority',
   { useNewUrlParser: true,
