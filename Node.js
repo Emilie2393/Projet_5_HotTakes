@@ -18,6 +18,7 @@ const normalizePort = val => {
 
 // vérifie le port et créé la clé "port"
 const port = normalizePort(process.env.PORT);
+console.log(port)
 app.set('port', port);
 
 // gestion d'erreur

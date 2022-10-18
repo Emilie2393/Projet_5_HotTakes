@@ -12,12 +12,13 @@ const path = require('path');
 const dotenv = require('dotenv');
 dotenv.config();
 
-mongoose.connect('mongodb+srv://emilie:akira2019@clusterexercice.fwyxuic.mongodb.net/?retryWrites=true&w=majority',
+mongoose.connect(`mongodb+srv://${process.env.MONGO_USERNAME}:${process.env.MONGO_PASSWORD}@${process.env.MONGO_CLUSTER}.mongodb.net/?retryWrites=true&w=majority`,
   { useNewUrlParser: true,
     useUnifiedTopology: true })
   .then(() => console.log('Connexion à MongoDB réussie !'))
   .catch(() => console.log('Connexion à MongoDB échouée !'));
 
+// permet l'accès aux utilisateurs de l'API
 app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content, Accept, Content-Type, Authorization');
@@ -25,6 +26,7 @@ app.use((req, res, next) => {
     next();
   });
 
+// middleware interprêtant les requêtes et les rendant accessibles sur req.body
 app.use(express.json());
 
 app.use('/api/sauces', sauceRoutes);
