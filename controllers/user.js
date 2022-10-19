@@ -13,14 +13,15 @@ exports.signup = (req, res) => {
             });
             user.save()
                 .then(() => res.status(201).json({ message: 'Utilisateur créé !' }))
-                .catch(error => res.status(400).json({ error, message : 'mail déjà utilisé' }));
+                .catch(error => res.status(400).json({ error }));
         })
-        .catch(error => res.status(500).json({ error }));
+        .catch(error => res.status(400).json({ error }));
 };
 
 exports.login = (req, res) => {
     User.findOne({ email: req.body.email })
         .then(user => {
+            console.log(user);
             if (!user) {
                 return res.status(401).json({ message: 'Paire Login/mot de passe incorrecte' });
             }
@@ -39,7 +40,7 @@ exports.login = (req, res) => {
                             { expiresIn: '24h' }),
                     })
                 })
-                .catch(error => res.status(500).json({ error }));
+                .catch(error => res.status(401).json({ error }));
         })
-        .catch(error => res.status(500).json({ error }));
+        .catch(error => res.status(400).json({ error }));
 };

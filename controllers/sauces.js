@@ -25,8 +25,6 @@ exports.createThing = (req, res) => {
 
 };
 
-
-
 exports.modifyThing = (req, res) => {
   const sauceObject = req.file ? {
       ...JSON.parse(req.body.sauce),
@@ -44,7 +42,7 @@ exports.modifyThing = (req, res) => {
           }
       })
       .catch((error) => {
-          res.status(400).json({ error });
+          res.status(404).json({ error });
       });
 };
 
@@ -58,7 +56,7 @@ exports.deleteThing = async (req, res) => {
       const filename = sauceId.imageUrl.split('/images')[1];
       // supprime l'image du dossier images
       fs.unlink(`images/${filename}`, (error) => {
-        if (error) res.status(500).json({ error });
+        if (error) res.status(400).json({ error });
       });
       // supprime la sauce par son _id
       const sauce = await Sauce.findByIdAndDelete({ _id: req.params.id });
@@ -66,7 +64,7 @@ exports.deleteThing = async (req, res) => {
     }
   }
   catch (error) {
-    res.status(500).json({ error });
+    res.status(404).json({ error });
   }
 }
 
@@ -75,10 +73,9 @@ exports.getAllStuff = async (req, res) => {
     // récupère les objets crées à l'aide du modèle Sauce
     const sauces = await Sauce.find({});
     res.status(200).json(sauces);
-    console.log(sauces)
   }
   catch (error){
-    res.status(500).json({ error });
+    res.status(404).json({ error });
   }
 };
 
@@ -89,7 +86,7 @@ exports.getOneThing = async (req, res) => {;
     res.status(200).json(sauce)
   }
   catch (error){
-    res.status(500).json({ error });
+    res.status(404).json({ error });
   }
 };
 
@@ -113,7 +110,7 @@ exports.postLikes = (req, res) => {
               }
             )
               .then(res.status(200).json(sauce))
-              .catch((error) => res.status(400).json({ error }))
+              .catch((error) => res.status(401).json({ error }))
           }
           break;
         // si un des boutons est cliqué une 2ème fois
@@ -129,7 +126,7 @@ exports.postLikes = (req, res) => {
               }
             )
               .then(res.status(200).json(sauce))
-              .catch((error) => res.status(400).json({ error }))
+              .catch((error) => res.status(401).json({ error }))
           }
           if (sauce.usersDisliked.includes(req.body.userId)) {
             Sauce.updateOne(
@@ -141,7 +138,7 @@ exports.postLikes = (req, res) => {
               }
             )
               .then(res.status(200).json(sauce))
-              .catch((error) => res.status(400).json({ error }))
+              .catch((error) => res.status(401).json({ error }))
           }
           break;
         // si le bouton dislike est cliqué
@@ -157,7 +154,7 @@ exports.postLikes = (req, res) => {
               }
             )
               .then(res.status(200).json(sauce))
-              .catch((error) => res.status(400).json({ error }))
+              .catch((error) => res.status(401).json({ error }))
           }
           break;
       }
