@@ -3,12 +3,13 @@ const express = require('express');
 const app = express();
 
 const mongoose = require('mongoose');
+
 const userRoutes = require('./routes/user');
 const sauceRoutes = require('./routes/sauces');
 
 // gère les chemins de répertoire pour images par exemple
 const path = require('path');
-
+// variables d'environnement pour mongoDb
 const dotenv = require('dotenv');
 dotenv.config();
 
