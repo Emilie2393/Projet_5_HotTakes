@@ -2,7 +2,7 @@ const Sauce = require('../models/sauce');
 const fs = require('fs');
 
 
-exports.createThing = (req, res) => {
+exports.createSauce = (req, res) => {
   console.log(req.body)
   const sauceObject = JSON.parse(req.body.sauce);
   delete sauceObject._id;
@@ -22,31 +22,36 @@ exports.createThing = (req, res) => {
 
 };
 
-exports.modifyThing = (req, res) => {
+exports.modifySauce = (req, res) => {
   // vérifier si il y a un fichier
   const sauceObject = req.file ? {
-      ...JSON.parse(req.body.sauce),
-      imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
+    ...JSON.parse(req.body.sauce),
+    imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
   } : { ...req.body };
   // sécuriser la modification de l'objet en évitant d'asigner l'objet à quelqu'un d'autre
   delete sauceObject._userId;
-  Sauce.findById({_id: req.params.id})
-      .then((sauce) => {
-        // vérification de l'utilisateur
-          if (sauce.userId != req.auth.userId) {
-              res.status(401).json({ message : 'Utilisateur non authorisé'});
-          } else {
-              Sauce.updateOne({ _id: req.params.id}, { ...sauceObject, _id: req.params.id})
-              .then(() => res.status(200).json({message : 'Objet modifié!'}))
-              .catch(error => res.status(401).json({ error }));
-          }
-      })
-      .catch((error) => {
-          res.status(404).json({ error });
-      });
+  Sauce.findById({ _id: req.params.id })
+    .then((sauce) => {
+      // vérification de l'utilisateur
+      if (sauce.userId != req.auth.userId) {
+        res.status(401).json({ message: 'Utilisateur non authorisé' });
+      } else {
+        const filename = sauce.imageUrl.split('/images')[1];
+        // supprime l'ancienne image du dossier images
+        fs.unlink(`images/${filename}`, (error) => {
+          if (error) res.status(400).json({ error });
+        });
+        Sauce.updateOne({ _id: req.params.id }, { ...sauceObject, _id: req.params.id })
+          .then(() => res.status(200).json({ message: 'Objet modifié!' }))
+          .catch(error => res.status(401).json({ error }));
+      }
+    })
+    .catch((error) => {
+      res.status(404).json({ error });
+    });
 };
 
-exports.deleteThing = async (req, res) => {
+exports.deleteSauce = async (req, res) => {
   try {
     const sauceId = await Sauce.findById({ _id: req.params.id });
     // valide l'authentification de l'utilisateur
@@ -68,7 +73,7 @@ exports.deleteThing = async (req, res) => {
   }
 }
 
-exports.getAllStuff = async (req, res) => {
+exports.getAllSauces = async (req, res) => {
   try{
     // récupère les objets crées à l'aide du modèle Sauce
     const sauces = await Sauce.find({});
@@ -79,7 +84,7 @@ exports.getAllStuff = async (req, res) => {
   }
 };
 
-exports.getOneThing = async (req, res) => {;
+exports.getOneSauce = async (req, res) => {;
   try {
     // récupère une sauce à l'aide de son _id
     const sauce = await Sauce.findById({_id: req.params.id});
