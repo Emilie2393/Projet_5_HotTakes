@@ -3,16 +3,16 @@
 
 HotTakes est une application qui permet de partager ses sauces préférées et les noter,
 
+### Associer ses données
+
+Créer votre compte sur https://account.mongodb.com/account/login. Ensuite, dans le fichier .env dans le dossier backend, entrer vos informations de connection à la base de données mongoDb et votre token
+
 ### Se connecter 
 
 Dans le terminal de backend tapez node Node puis entrer/
 Fonctionne aussi avec nodemon
 
 Dans le terminal de frontend tapez npm start
-
-### Associer ses données
-
-Dans le fichier .env dans le dossier backend, entrer vos informations de connection à la base de données mongoDb et votre token
 
 ### Se rendre sur HotTakes
 
