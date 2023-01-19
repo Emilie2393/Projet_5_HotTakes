@@ -9,7 +9,7 @@ Créer votre compte sur https://account.mongodb.com/account/login. Ensuite, dans
 
 ### Se connecter 
 
-Dans le terminal de backend tapez node Node puis entrer/
+Dans le terminal de backend tapez node server puis entrer/
 Fonctionne aussi avec nodemon
 
 Dans le terminal de frontend tapez npm start

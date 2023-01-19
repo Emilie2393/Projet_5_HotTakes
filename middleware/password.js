@@ -14,7 +14,7 @@ if (password.validate(req.body.password)){
     next();
 }
 else{
-    console.log("ses informations manquent au mot de passe:",(password.validate(req.body.password, {list: true})))
+    console.log("ces informations manquent au mot de passe:",(password.validate(req.body.password, {list: true})))
     return res.status(401).json({message: `le mot de passe n'est pas sécurisé ${password.validate('req.body.password', { list: true})}`});
 }
 }
